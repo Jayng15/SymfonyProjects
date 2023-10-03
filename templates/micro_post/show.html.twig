@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div>Post detail:</div>
+    <div>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.text }}</p>
+            <div style ="color: grey;">
+            {% if date(post.created) > date('-1year')%}
+                    {{ post.created|date('d/m/Y') }}
+            {% else %}
+                    Older than 1 year 
+            {% endif %}
+            </div>
+    </div>
+
+{% endblock %}
