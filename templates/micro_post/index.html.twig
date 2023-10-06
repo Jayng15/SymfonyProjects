@@ -3,15 +3,20 @@
 {% block title %}All Posts{% endblock %}
 
 {% block body %}
-    <div>   
+    <table>
+        <tr>
+            <th>Posts</th>
+            <th>Edit</th>
+        </tr>   
         {% if posts|length > 0 %}
             {% for post in posts %}
-                <div>
-                    <a href="{{ path('app_micro_post_show', { post: post.id }) }}">{{post.title}}</a>
-                </div>
+                    <tr>
+                        <td><a href="{{ path('app_micro_post_show', { post: post.id }) }}">{{post.title}}</a></td>
+                        <td><a href="{{ path('app_micro_post_edit', { id: post.id }) }}">Edit</a></td>    
+                    </tr>
             {% endfor %}
         {% else %}
             Null
         {% endif %}
-    </div>
+    </table>
 {% endblock %}

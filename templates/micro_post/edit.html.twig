@@ -1,7 +1,7 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Post Form
-{% endblock %}
+{% block title %}Edit Post{% endblock %}
 {% block body %}
 
 	{{ form_start(form) }}
@@ -9,13 +9,13 @@
 		{{ form_errors(form) }}
 	</div>
 	<div>
-		{{ form_label(form.title, 'Enter your post title', {'attr': {'style': 'color: gray'}}) }}
+		{{ form_label(form.title, 'Post Title', {'attr': {'style': 'color: gray'}}) }}
 	</div>
 	<div>
 		{{ form_widget(form.title) }}
 	</div>
 	<div>
-		{{ form_label(form.text, 'Enter your content', {'attr': {'style': 'color: gray'}}) }}
+		{{ form_label(form.text, 'Post context', {'attr': {'style': 'color: gray'}}) }}
 	</div>
     <div>
         {{ form_widget(form.text) }}
