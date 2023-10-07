@@ -9,9 +9,7 @@
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script>
-			tailwind.config = {
-darkMode: 'class'
-}
+			tailwind.config = {darkMode: 'class'}
 		</script>
 	</head>
 	<body class="bg-gray-100 text-gray-800 m-10 dark:bg-gray-800 dark:text-white">
@@ -23,6 +21,9 @@ darkMode: 'class'
 			<div class="text-right">
 				<div class="test-sm test-gray-300 dark:text-gray-500">
 					Login & Registration
+				</div>
+				<div class="text-gray-500 text-sm">
+					<a href="{{ path('app_micro_post_add') }}">Add New</a>
 				</div>
 			</div>
 		</div>
