@@ -28,31 +28,32 @@ class MicroPostController extends AbstractController
     {
         return $this->render('/micro_post/show.html.twig', [
             'post' => $post
-    ]);
+        ]);
     }
 
-    
+
     #[Route('/micro-post/{id}/edit', name: 'app_micro_post_edit')]
     public function edit(MicroPost $id, Request $request, MicroPostRepository $p): Response
     {
         $form = $this->createForm(MicroPostType::class, $id);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $p->add($post, true);
-     
-     
+
+
             // Add a flush message
             $this->addFlash("success", "your post has been updated");
             // Redirect to different page
             return $this->redirectToRoute('app_micro_post');
         }
-        return $this->render('micro_post/edit.html.twig',
-        [
-            'form' => $form
-        ]);
+        return $this->render(
+            'micro_post/edit.html.twig',
+            [
+                'form' => $form
+            ]
+        );
     }
     #[Route('/micro-post/add', name: 'app_micro_post_add', priority: '2')]
     public function add(Request $request, MicroPostRepository $p): Response
@@ -60,22 +61,22 @@ class MicroPostController extends AbstractController
         $form = $this->createForm(MicroPostType::class, new MicroPost());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $post->setCreated(new DateTime());
             $p->add($post, true);
- 
+
             // Add a flush message
             $this->addFlash("success", "your post has been upload successfully");
 
             // Redirect to different page
             return $this->redirectToRoute('app_micro_post');
         }
-        return $this->render('micro_post/new.html.twig',
-        [
-            'form' => $form
-        ]);
+        return $this->render(
+            'micro_post/new.html.twig',
+            [
+                'form' => $form
+            ]
+        );
     }
-
 }

@@ -1,4 +1,5 @@
 {
     "editor.fontSize": 15,
-    "editor.fontFamily": "Hack Nerd Font"
+    "editor.fontFamily": "Fira Code",
+    "files.autoSave": "onFocusChange"
 }
