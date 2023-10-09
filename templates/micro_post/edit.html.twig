@@ -1,26 +1,9 @@
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Post{% endblock %}
-{% block body %}
-
-	{{ form_start(form) }}
-	<div>
-		{{ form_errors(form) }}
-	</div>
-	<div>
-		{{ form_label(form.title, 'Post Title', {'attr': {'style': 'color: gray'}}) }}
-	</div>
-	<div>
-		{{ form_widget(form.title) }}
-	</div>
-	<div>
-		{{ form_label(form.text, 'Post context', {'attr': {'style': 'color: gray'}}) }}
-	</div>
-    <div>
-        {{ form_widget(form.text) }}
-    </div>
-        <button type="submit">Post</button>
-    {{ form_end(form) }}
-
+{% block title %}Edit Post
 {% endblock %}
+{% block bread %}→ Edit
+{% endblock %}
+
+{% block body %} {{ include('micro_post/_form.html.twig') }} {% endblock %}
+
