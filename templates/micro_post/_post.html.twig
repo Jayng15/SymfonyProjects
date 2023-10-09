@@ -1,4 +1,4 @@
-<div class="mb-4">
+aa<div class="mb-4">
 	<div class="text-2xl">
 		<a href="{{ path('app_micro_post_show', { post: post.id }) }}">
 			{{post.title}}
@@ -20,6 +20,7 @@
 		<a href="#">user@email.com</a>
 	</div>
 	<div>
-		<a href="{{ path('app_micro_post_edit', { id: post.id }) }}">Edit Post</a>
+		<a href="{{ path('app_micro_post_edit', { id: post.id }) }}" class="mr-2">Edit Post</a>
+		<a href="{{ path('app_micro_post_comment', {post: post.id}) }}">Add Comment</a>
 	</div>
 </div>
