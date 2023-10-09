@@ -30,7 +30,7 @@ class MicroPost
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: comment::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
     public function __construct()
