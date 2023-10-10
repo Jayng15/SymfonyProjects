@@ -27,10 +27,10 @@ class MicroPostController extends AbstractController
 
 
     #[Route('/micro-post/{post}', name: 'app_micro_post_show')]
-    public function showOne(MicroPost $post): Response
+    public function showOne(MicroPost $post, CommentRepository $comments): Response
     {
         return $this->render('/micro_post/show.html.twig', [
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
@@ -91,7 +91,7 @@ class MicroPostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
-            $comments->setPost($post);
+            $comment->setPost($post);
             $comments->add($comment, true);
 
             //Add flash
