@@ -3,8 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
-			{% endblock %}
+			{% block title %}Welcome!{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
 		<script src="https://cdn.tailwindcss.com"></script>
@@ -19,12 +18,13 @@
 				{% block bread %}{% endblock %}
 			</div>
 			<div class="text-right">
-				<div class="test-sm test-gray-300 dark:text-gray-500">
-					Login & Registration
-				</div>
+				{% if app.user %}
 				<div class="text-gray-500 text-sm">
 					<a href="{{ path('app_micro_post_add') }}">Add New</a>
 				</div>
+				{% else %}
+				<a href="{{ path('app_login') }}" class="text-md text-gray-500">Login</a>
+				{% endif %}
 			</div>
 		</div>
 

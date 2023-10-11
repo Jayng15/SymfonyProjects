@@ -21,7 +21,7 @@ class MicroPostController extends AbstractController
     public function index(MicroPostRepository $p): Response
     {
         return $this->render('micro_post/index.html.twig', [
-            'posts' => $p->findAll(),
+            'posts' => $p->findAllWithComments(),
         ]);
     }
 
@@ -54,19 +54,23 @@ class MicroPostController extends AbstractController
         return $this->render(
             'micro_post/edit.html.twig',
             [
-                'form' => $form
+                'form' => $form,
+                'post' => $id
             ]
         );
     }
     #[Route('/micro-post/add', name: 'app_micro_post_add', priority: '2')]
-    public function add(Request $request, MicroPostRepository $p): Response
-    {
+    public function add(
+        Request $request, 
+        MicroPostRepository $p
+    ): Response{
         $form = $this->createForm(MicroPostType::class, new MicroPost());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $post->setCreated(new DateTime());
+            $post->setUser($this->getUser());
             $p->add($post, true);
 
             // Add a flush message
@@ -92,6 +96,7 @@ class MicroPostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setPost($post);
+            $comment->setAuthor($this->getUser());
             $comments->add($comment, true);
 
             //Add flash
