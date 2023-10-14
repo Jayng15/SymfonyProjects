@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
 use DateTime;
+use App\Entity\Comment;
 use App\Entity\MicroPost;
 use App\Form\CommentType;
 use App\Form\MicroPostType;
@@ -12,6 +12,7 @@ use App\Repository\MicroPostRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -21,21 +22,22 @@ class MicroPostController extends AbstractController
     public function index(MicroPostRepository $p): Response
     {
         return $this->render('micro_post/index.html.twig', [
-            'posts' => $p->findAll(),
+            'posts' => $p->findAllWithComments(),
         ]);
     }
 
 
     #[Route('/micro-post/{post}', name: 'app_micro_post_show')]
-    public function showOne(MicroPost $post): Response
+    public function showOne(MicroPost $post, CommentRepository $comments): Response
     {
         return $this->render('/micro_post/show.html.twig', [
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
 
     #[Route('/micro-post/{id}/edit', name: 'app_micro_post_edit')]
+    #[IsGranted('ROLE_EDITOR')]
     public function edit(MicroPost $id, Request $request, MicroPostRepository $p): Response
     {
         $form = $this->createForm(MicroPostType::class, $id);
@@ -54,19 +56,23 @@ class MicroPostController extends AbstractController
         return $this->render(
             'micro_post/edit.html.twig',
             [
-                'form' => $form
+                'form' => $form,
+                'post' => $id
             ]
         );
     }
     #[Route('/micro-post/add', name: 'app_micro_post_add', priority: '2')]
-    public function add(Request $request, MicroPostRepository $p): Response
-    {
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function add(
+        Request $request, 
+        MicroPostRepository $p
+    ): Response{
         $form = $this->createForm(MicroPostType::class, new MicroPost());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
-            $post->setCreated(new DateTime());
+            $post->setAuthor($this->getUser());
             $p->add($post, true);
 
             // Add a flush message
@@ -84,6 +90,7 @@ class MicroPostController extends AbstractController
     }
 
     #[Route('/micro-post/{post}/comment', name: 'app_micro_post_comment')]
+    #[IsGranted('ROLE_COMMENTER')]
     public function addComment(MicroPost $post, Request $request, CommentRepository $comments): Response
     {
         $form = $this->createForm(CommentType::class, new Comment());
@@ -91,7 +98,8 @@ class MicroPostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
-            $comments->setPost($post);
+            $comment->setPost($post);
+            $comment->setAuthor($this->getUser());
             $comments->add($comment, true);
 
             //Add flash
