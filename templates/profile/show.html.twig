@@ -17,7 +17,7 @@
 	{% elseif app.request.get('_route') == 'app_profile_follows' %}
 	{{ include('profile/_follows_list.html.twig', { users: user.follows }) }}
 	{% else %}
-	{{ include('profile/_followers_list.html.twig') }}
+	{{ include('profile/_followers_list.html.twig', {users: user.followers}) }}
 	{% endif %}
 
 {% endblock %}
