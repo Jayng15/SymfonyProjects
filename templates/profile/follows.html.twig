@@ -13,9 +13,8 @@
 
 {% block body %}
 
-	{{ include('profile/_profile_headers.html.twig') }}
+	{{ include('profile/_profile_headers.html.twig', { user: user }) }}
 	{{ include('profile/_profile_tabs.html.twig') }}
-	{# {{dump (user)}} #}
 	{{ include('follower/follower.html.twig', { users: user.follows }) }}
 
 {% endblock %}
