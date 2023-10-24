@@ -69,7 +69,7 @@ class SettingsProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $profileImageFile = $form->get('profileImages')->getData();
+            $profileImageFile = $form->get('profileImage')->getData();
 
             if ($profileImageFile)
             {
@@ -79,7 +79,7 @@ class SettingsProfileController extends AbstractController
                 );
 
                 $safeFileName = $slugger->slug($originalFileName);
-                $newFileName = $safeFileName . '-' . uniqid() . '.' . $profileImageFile;
+                $newFileName = $safeFileName . '-' . uniqid() . '.' . $profileImageFile->guessExtension();
             } 
 
             try {
@@ -91,6 +91,7 @@ class SettingsProfileController extends AbstractController
             }
             $profile = $user->getUserProfile() ?? new UserProfile();
             $profile->setImage($newFileName);
+            $user->setUserProfile($profile);
             $manager->getManager()->flush();
             $this->addFlash('success', 'Your avatar has been updated');
             
