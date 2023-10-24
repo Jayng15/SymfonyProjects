@@ -43,10 +43,20 @@ class MicroPostVoter extends Voter
         switch ($attribute) {
             case MicroPost::EDIT:
                 return $isAuth 
-                && ($subject->getAuthor()->getId() == $user->getId()) ||
-                $this->security->isGranted('ROLE_EDITOR');
+                && (
+                    ($subject->getAuthor()->getId() === $user->getId()) ||
+                    $this->security->isGranted('ROLE_EDITOR')
+                );
             case MicroPost::VIEW:
-                return true;
+                if (!$subject->isPrivacy()){
+                    return true;
+                }
+
+                return $isAuth
+                && (
+                    ($subject->getAuthor()->getId() === $user->getId()) ||
+                    $subject->getAuthor()->getFollows()->contains($user)
+                );
                 // logic to determine if the user can VIEW
                 // return true or false
         }

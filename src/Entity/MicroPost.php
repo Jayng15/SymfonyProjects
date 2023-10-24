@@ -44,11 +44,15 @@ class MicroPost
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\Column]
+    private ?bool $privacy = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->likedBy = new ArrayCollection();
         $this->created = new DateTime();
+        $this->privacy = false;
     }
 
     public function getId(): ?int
@@ -154,6 +158,18 @@ class MicroPost
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function isPrivacy(): ?bool
+    {
+        return $this->privacy;
+    }
+
+    public function setPrivacy(bool $privacy): static
+    {
+        $this->privacy = $privacy;
 
         return $this;
     }
